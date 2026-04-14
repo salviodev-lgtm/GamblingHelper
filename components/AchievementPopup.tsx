@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
 
 interface AchievementPopupProps {
@@ -9,7 +9,17 @@ interface AchievementPopupProps {
 
 const { width } = Dimensions.get('window');
 
+const MEME_PHRASES = [
+  'AFAMMOKK!',
+  'blud caccia i soldi',
+  'meglio che non venivi',
+  'VERAMENTE?!',
+  'TUNGTUNGTUNGTUNG',
+  'BRR BRR PATAPIM',
+];
+
 export default function AchievementPopup({ winner, visible, onHide }: AchievementPopupProps) {
+  const [memePhrase] = useState(() => MEME_PHRASES[Math.floor(Math.random() * MEME_PHRASES.length)]);
   const scale = useRef(new Animated.Value(0)).current;
   const opacity = useRef(new Animated.Value(0)).current;
 
@@ -54,7 +64,7 @@ export default function AchievementPopup({ winner, visible, onHide }: Achievemen
     <Animated.View style={[styles.overlay, { opacity }]}>
       <Animated.View style={[styles.popup, { transform: [{ scale }] }]}>
         <View style={styles.topBar}>
-          <Text style={styles.achievementText}>ACHIEVEMENT UNLOCKED!</Text>
+          <Text style={styles.achievementText}>{memePhrase}</Text>
         </View>
         <View style={styles.content}>
           <View style={styles.iconContainer}>

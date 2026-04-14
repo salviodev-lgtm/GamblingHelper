@@ -53,6 +53,7 @@ function RouletteNormal() {
   const [result, setResult] = useState<Character | null>(null);
   const [showPayout, setShowPayout] = useState(false);
   const [showAchievement, setShowAchievement] = useState(false);
+  const [showAchievementPopup, setShowAchievementPopup] = useState(false);
   const [payout, setPayout] = useState('');
 
   useEffect(() => {
@@ -76,6 +77,7 @@ function RouletteNormal() {
     if (selected.length === 0) return;
     setIsSpinning(true);
     setShowAchievement(false);
+    setShowAchievementPopup(false);
   };
 
   const handleSpinEnd = (winner: string) => {
@@ -83,6 +85,7 @@ function RouletteNormal() {
     setResult(char || null);
     setIsSpinning(false);
     setShowAchievement(true);
+    setShowAchievementPopup(true);
   };
 
   const confirmGame = async () => {
@@ -110,8 +113,8 @@ function RouletteNormal() {
         <View style={styles.container}>
           <AchievementPopup
             winner={result.name}
-            visible={showAchievement}
-            onHide={() => setShowAchievement(false)}
+            visible={showAchievementPopup}
+            onHide={() => setShowAchievementPopup(false)}
           />
           <View style={styles.resultContainer}>
             <PixelText size="large" color="#E74C3C">THE LOSER IS:</PixelText>
@@ -141,11 +144,6 @@ function RouletteNormal() {
             </View>
           </View>
         </View>
-        <AchievementPopup
-            winner={result.name}
-            visible={showAchievement}
-            onHide={() => setShowAchievement(false)}
-          />
       </MinecraftBackground>
     );
   }
@@ -208,6 +206,7 @@ function RouletteEliminazione() {
   const [currentEliminated, setCurrentEliminated] = useState<Character | null>(null);
   const [showPayout, setShowPayout] = useState(false);
   const [showAchievement, setShowAchievement] = useState(false);
+  const [showAchievementPopup, setShowAchievementPopup] = useState(false);
   const [payout, setPayout] = useState('');
 
   useEffect(() => {
@@ -256,6 +255,9 @@ function RouletteEliminazione() {
       const timer = setTimeout(spinAndEliminate, 500);
       return () => clearTimeout(timer);
     }
+    if (!isSelecting && available.length === 1) {
+      setShowAchievementPopup(true);
+    }
   }, [isSelecting, available.length, currentEliminated, isSpinning]);
 
   const confirmGame = async () => {
@@ -285,8 +287,8 @@ function RouletteEliminazione() {
         <View style={styles.container}>
           <AchievementPopup
             winner={loser.name}
-            visible={true}
-            onHide={() => {}}
+            visible={showAchievementPopup}
+            onHide={() => setShowAchievementPopup(false)}
           />
           <View style={styles.resultContainer}>
             <PixelText size="large" color="#E74C3C">THE LOSER IS:</PixelText>

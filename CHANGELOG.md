@@ -2,6 +2,13 @@
 
 All notable changes to this application will be documented in this file.
 
+## [0.0.2] - 2026-04-14
+
+### Fixed
+- **Roulette Normal Mode - Payout Screen Skipped**: Fixed issue where the payout screen was being skipped after spinning. The AchievementPopup auto-hide was incorrectly unmounting the payout UI. Now uses separate state for popup visibility vs payout screen.
+- **Roulette Eliminazione Mode - Buttons Not Working**: Fixed issue where EXIT and CONFIRM buttons didn't work on the final payout screen. The AchievementPopup was remaining mounted invisibly and blocking touch events due to improper onHide handler. Now properly manages popup lifecycle.
+- **Persistent Audio Mute State**: Fixed race condition where audio would play even when muted after app restart. Audio now only initializes after mute state is loaded from AsyncStorage, and volume is set correctly from the start.
+
 ## [0.0.1] - 2026-04-14
 
 ### Added

@@ -3,9 +3,13 @@ import { Audio } from 'expo-av';
 
 export function useBackgroundMusic(isMuted: boolean) {
   const soundRef = useRef<Audio.Sound | null>(null);
+  const isSetupRef = useRef(false);
 
   useEffect(() => {
     const setupAudio = async () => {
+      if (isSetupRef.current) return;
+      isSetupRef.current = true;
+
       await Audio.setAudioModeAsync({
         playsInSilentModeIOS: true,
         staysActiveInBackground: true,
@@ -20,11 +24,15 @@ export function useBackgroundMusic(isMuted: boolean) {
       await sound.playAsync();
     };
 
-    setupAudio();
+    if (!isMuted) {
+      setupAudio();
+    }
 
     return () => {
       if (soundRef.current) {
         soundRef.current.unloadAsync();
+        soundRef.current = null;
+        isSetupRef.current = false;
       }
     };
   }, []);

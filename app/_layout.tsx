@@ -1,7 +1,8 @@
-import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
+import { useState, useEffect, useRef, createContext, useContext, ReactNode } from 'react';
+import { Audio } from 'expo-av';
 import { Stack } from 'expo-router';
-import { useBackgroundMusic } from '../hooks/useBackgroundMusic';
 import { getMuteState, saveMuteState } from '../hooks/storage';
+import { Animated, Easing } from 'react-native';
 
 interface MuteContextType {
   isMuted: boolean;
@@ -17,18 +18,92 @@ export function useMute() {
   return useContext(MuteContext);
 }
 
+const slideInterpolator = ({ current, layouts }: { current: Animated.AnimatedInterpolation; layouts: { screen: { width: number } } }) => {
+  return {
+    cardStyle: {
+      transform: [
+        {
+          translateX: current.progress.interpolate({
+            inputRange: [0, 1],
+            outputRange: [layouts.screen.width, 0],
+          }),
+        },
+      ],
+    },
+  };
+};
+
+const transitionSpec = {
+  open: {
+    animation: 'timing' as const,
+    config: {
+      duration: 300,
+      easing: Easing.out(Easing.cubic),
+    },
+  },
+  close: {
+    animation: 'timing' as const,
+    config: {
+      duration: 300,
+      easing: Easing.in(Easing.cubic),
+    },
+  },
+};
+
 function AudioProvider({ children }: { children: ReactNode }) {
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const soundRef = useRef<Audio.Sound | null>(null);
 
   useEffect(() => {
     const loadMuteState = async () => {
       const stored = await getMuteState();
       setIsMuted(stored);
+      setIsLoaded(true);
     };
     loadMuteState();
   }, []);
 
-  useBackgroundMusic(isMuted);
+  useEffect(() => {
+    if (!isLoaded) return;
+    let isMounted = true;
+
+    const setupAudio = async () => {
+      await Audio.setAudioModeAsync({
+        playsInSilentModeIOS: true,
+        staysActiveInBackground: true,
+        shouldDuckAndroid: true,
+      });
+
+      const { sound } = await Audio.Sound.createAsync(
+        require('../assets/OST.mp3'),
+        { isLooping: true, volume: isMuted ? 0 : 0.3 }
+      );
+
+      if (isMounted) {
+        soundRef.current = sound;
+        await sound.playAsync();
+      } else {
+        await sound.unloadAsync();
+      }
+    };
+
+    setupAudio();
+
+    return () => {
+      isMounted = false;
+      if (soundRef.current) {
+        soundRef.current.unloadAsync();
+        soundRef.current = null;
+      }
+    };
+  }, [isLoaded]);
+
+  useEffect(() => {
+    if (soundRef.current) {
+      soundRef.current.setVolumeAsync(isMuted ? 0 : 0.3);
+    }
+  }, [isMuted]);
 
   const toggleMute = async () => {
     const newState = !isMuted;
@@ -38,7 +113,7 @@ function AudioProvider({ children }: { children: ReactNode }) {
 
   return (
     <MuteContext.Provider value={{ isMuted, toggleMute }}>
-      {children}
+      {isLoaded ? children : null}
     </MuteContext.Provider>
   );
 }
@@ -49,6 +124,7 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
+          animation: 'none',
         }}
       >
         <Stack.Screen name="index" options={{ title: 'Gambling Helper' }} />

@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import { View, StyleSheet, ImageBackground, TextInput, Modal, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { useRouter } from 'expo-router';
-import { getCharacters, addHistoryEntry, generateId } from '../hooks/storage';
-import { Character, HistoryEntry } from '../types';
+import { useEffect, useState } from 'react';
+import { ImageBackground, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import MinecraftButton from '../components/MinecraftButton';
 import PixelText from '../components/PixelText';
+import { addHistoryEntry, generateId, getCharacters } from '../hooks/storage';
+import { Character, HistoryEntry } from '../types';
 import { useMute } from './_layout';
 
 const games = [
@@ -32,7 +32,7 @@ export default function HomeScreen() {
       <ImageBackground source={require('../assets/images/MenuWallpaper.jpeg')} style={styles.background}>
         <View style={styles.overlay}>
 <PixelText size="huge" color="#FFD700" style={styles.title}>GAMBLING{'\n'}HELPER</PixelText>
-        <PixelText size="medium" color="#888" style={styles.version}>v0.0.1</PixelText>
+        <PixelText size="medium" color="#888" style={styles.version}>v0.0.2</PixelText>
         </View>
       </ImageBackground>
     );
@@ -46,7 +46,7 @@ export default function HomeScreen() {
       <View style={styles.overlay}>
         <PixelText size="huge" color="#FFD700" style={styles.title}>GAMBLING{'\n'}HELPER</PixelText>
         <View style={styles.versionContainer}>
-          <PixelText size="small" color="#888">v0.0.1</PixelText>
+          <PixelText size="small" color="#888">v0.0.2</PixelText>
         </View>
         <View style={styles.gameGrid}>
           {games.map((game) => (
