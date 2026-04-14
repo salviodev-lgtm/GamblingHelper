@@ -32,7 +32,7 @@ export default function HomeScreen() {
       <ImageBackground source={require('../assets/images/MenuWallpaper.jpeg')} style={styles.background}>
         <View style={styles.overlay}>
 <PixelText size="huge" color="#FFD700" style={styles.title}>GAMBLING{'\n'}HELPER</PixelText>
-        <PixelText size="medium" color="#888" style={styles.version}>v0.0.2</PixelText>
+        <PixelText size="medium" color="#888" style={styles.version}>v0.0.4</PixelText>
         </View>
       </ImageBackground>
     );
