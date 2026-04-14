@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ImageBackground, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ImageBackground, KeyboardAvoidingView, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import MinecraftButton from '../components/MinecraftButton';
 import PixelText from '../components/PixelText';
 import { addHistoryEntry, generateId, getCharacters } from '../hooks/storage';
@@ -46,7 +46,7 @@ export default function HomeScreen() {
       <View style={styles.overlay}>
         <PixelText size="huge" color="#FFD700" style={styles.title}>GAMBLING{'\n'}HELPER</PixelText>
         <View style={styles.versionContainer}>
-          <PixelText size="small" color="#888">v0.0.2</PixelText>
+          <PixelText size="small" color="#888">v0.0.4</PixelText>
         </View>
         <View style={styles.gameGrid}>
           {games.map((game) => (
@@ -145,7 +145,7 @@ function CustomGameModal({ visible, onClose }: CustomGameModalProps) {
       animationType="fade"
       onRequestClose={handleClose}
     >
-      <View style={modalStyles.overlay}>
+      <KeyboardAvoidingView style={modalStyles.overlay} behavior="padding">
         <View style={modalStyles.modal}>
           <PixelText size="large" color="#FFD700" style={modalStyles.title}>CUSTOM GAME</PixelText>
 
@@ -197,7 +197,7 @@ function CustomGameModal({ visible, onClose }: CustomGameModalProps) {
             />
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
@@ -218,12 +218,14 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 50,
+    paddingBottom: 20,
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   title: {
     textAlign: 'center',
-    marginTop: 30,
+    marginTop: 10,
     marginBottom: 5,
   },
   versionContainer: {

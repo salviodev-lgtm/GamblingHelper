@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, TextInput, ScrollView } from 'react-native';
+import { View, StyleSheet, FlatList, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { router } from 'expo-router';
 import { getCharacters, addHistoryEntry, generateId } from '../../hooks/storage';
 import { Character, HistoryEntry } from '../../types';
@@ -110,7 +110,7 @@ function RouletteNormal() {
   if (showAchievement && result) {
     return (
       <MinecraftBackground>
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
           <AchievementPopup
             winner={result.name}
             visible={showAchievementPopup}
@@ -143,7 +143,7 @@ function RouletteNormal() {
               />
             </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </MinecraftBackground>
     );
   }
@@ -284,7 +284,7 @@ function RouletteEliminazione() {
     const loser = available[0];
     return (
       <MinecraftBackground>
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
           <AchievementPopup
             winner={loser.name}
             visible={showAchievementPopup}
@@ -317,7 +317,7 @@ function RouletteEliminazione() {
               />
             </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </MinecraftBackground>
     );
   }
@@ -402,12 +402,14 @@ function RouletteEliminazione() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 50,
+    paddingBottom: 20,
   },
   title: {
     textAlign: 'center',
     marginBottom: 20,
-    marginTop: 20,
+    marginTop: 10,
   },
   subtitle: {
     textAlign: 'center',

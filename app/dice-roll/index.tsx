@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native';
 import { router } from 'expo-router';
 import { addHistoryEntry, generateId, getCharacters } from '../../hooks/storage';
 import { HistoryEntry, Character } from '../../types';
@@ -75,7 +75,7 @@ export default function DiceRollScreen() {
   if (showPayout) {
     return (
       <MinecraftBackground>
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
           <PixelText size="huge" color="#5C9C3E">D{selectedDice}</PixelText>
           <PixelText size="large" color="#FFD700" style={styles.rolledNum}>{result}</PixelText>
           <PixelText size="medium" color="#FFF" style={styles.label}>SELECT THE LOSER</PixelText>
@@ -108,7 +108,7 @@ export default function DiceRollScreen() {
             />
             <MinecraftButton title="EXIT" color="#E74C3C" onPress={exitGame} style={styles.halfBtn} />
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </MinecraftBackground>
     );
   }
@@ -170,7 +170,9 @@ export default function DiceRollScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 50,
+    paddingBottom: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },

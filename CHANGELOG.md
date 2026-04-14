@@ -2,6 +2,15 @@
 
 All notable changes to this application will be documented in this file.
 
+## [0.0.4] - 2026-04-14
+
+### Added
+- **Keyboard Scrolling**: Added KeyboardAvoidingView to all screens with text inputs (Custom Game modal, Characters screen, Coin Flip, Dice Roll, Roulette, Random Picker). When the keyboard opens, the view is pushed up so users can see what they're typing.
+- **New Meme Phrase**: Added "ADESSO PAGO IO" to the achievement popup meme phrases
+
+### Changed
+- **Reduced Header Margins**: Moved title text closer to the top of the screen on the main menu (GAMBLING HELPER) and Roulette screen for a more compact layout
+
 ## [0.0.3] - 2026-04-14
 
 ### Added

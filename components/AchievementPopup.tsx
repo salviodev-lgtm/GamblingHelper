@@ -16,6 +16,7 @@ const MEME_PHRASES = [
   'VERAMENTE?!',
   'TUNGTUNGTUNGTUNG',
   'BRR BRR PATAPIM',
+  'ADESSO PAGO IO',
 ];
 
 export default function AchievementPopup({ winner, visible, onHide }: AchievementPopupProps) {

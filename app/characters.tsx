@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, FlatList, TextInput, Alert, KeyboardAvoidingView } from 'react-native';
 import { getCharacters, saveCharacters, generateId } from '../hooks/storage';
 import { Character } from '../types';
 import MinecraftBackground from '../components/MinecraftBackground';
@@ -112,7 +112,7 @@ export default function CharactersScreen() {
 
   return (
     <MinecraftBackground>
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         <PixelText size="huge" color="#FFD700" style={styles.title}>CHARACTERS</PixelText>
         <View style={styles.addSection}>
           <TextInput
@@ -131,7 +131,7 @@ export default function CharactersScreen() {
           style={styles.list}
           contentContainerStyle={styles.listContent}
         />
-      </View>
+      </KeyboardAvoidingView>
     </MinecraftBackground>
   );
 }
@@ -139,7 +139,9 @@ export default function CharactersScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 50,
+    paddingBottom: 20,
   },
   title: {
     textAlign: 'center',
