@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, createContext, useContext, ReactNode } from 'react';
+import { View } from 'react-native';
 import { Audio } from 'expo-av';
 import { Stack } from 'expo-router';
 import { getMuteState, saveMuteState } from '../hooks/storage';
-import { Animated, Easing } from 'react-native';
 
 interface MuteContextType {
   isMuted: boolean;
@@ -17,38 +17,6 @@ export const MuteContext = createContext<MuteContextType>({
 export function useMute() {
   return useContext(MuteContext);
 }
-
-const slideInterpolator = ({ current, layouts }: { current: Animated.AnimatedInterpolation; layouts: { screen: { width: number } } }) => {
-  return {
-    cardStyle: {
-      transform: [
-        {
-          translateX: current.progress.interpolate({
-            inputRange: [0, 1],
-            outputRange: [layouts.screen.width, 0],
-          }),
-        },
-      ],
-    },
-  };
-};
-
-const transitionSpec = {
-  open: {
-    animation: 'timing' as const,
-    config: {
-      duration: 300,
-      easing: Easing.out(Easing.cubic),
-    },
-  },
-  close: {
-    animation: 'timing' as const,
-    config: {
-      duration: 300,
-      easing: Easing.in(Easing.cubic),
-    },
-  },
-};
 
 function AudioProvider({ children }: { children: ReactNode }) {
   const [isMuted, setIsMuted] = useState<boolean>(false);
@@ -121,20 +89,22 @@ function AudioProvider({ children }: { children: ReactNode }) {
 export default function RootLayout() {
   return (
     <AudioProvider>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          animation: 'none',
-        }}
-      >
-        <Stack.Screen name="index" options={{ title: 'Gambling Helper' }} />
-        <Stack.Screen name="characters" options={{ title: 'Characters' }} />
-        <Stack.Screen name="history" options={{ title: 'History' }} />
-        <Stack.Screen name="coin-flip" options={{ title: 'Coin Flip' }} />
-        <Stack.Screen name="random-picker" options={{ title: 'Random Picker' }} />
-        <Stack.Screen name="dice-roll" options={{ title: 'Dice Roll' }} />
-        <Stack.Screen name="roulette" options={{ title: 'Roulette' }} />
-      </Stack>
+      <View style={{ flex: 1, backgroundColor: '#1a1a1a' }}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            animation: 'slide_from_right',
+          }}
+        >
+          <Stack.Screen name="index" options={{ title: 'Gambling Helper' }} />
+          <Stack.Screen name="characters" options={{ title: 'Characters' }} />
+          <Stack.Screen name="history" options={{ title: 'History' }} />
+          <Stack.Screen name="coin-flip" options={{ title: 'Coin Flip' }} />
+          <Stack.Screen name="random-picker" options={{ title: 'Random Picker' }} />
+          <Stack.Screen name="dice-roll" options={{ title: 'Dice Roll' }} />
+          <Stack.Screen name="roulette" options={{ title: 'Roulette' }} />
+        </Stack>
+      </View>
     </AudioProvider>
   );
 }

@@ -2,6 +2,16 @@
 
 All notable changes to this application will be documented in this file.
 
+## [0.0.3] - 2026-04-14
+
+### Added
+- **Meme Phrases in Achievement Popup**: The achievement popup now displays random meme phrases instead of "ACHIEVEMENT UNLOCKED!". Phrases include: "AFAMMOKK!", "blud caccia i soldi", "meglio che non venivi", "VERAMENTE?!", "TUNGTUNGTUNGTUNG", "BRR BRR PATAPIM"
+- **Screen Transition Animation**: Added smooth slide-from-right animation when navigating between screens
+- **Dark Background for Transitions**: Wrapped Stack navigator in dark container to prevent white flash during back navigation
+
+### Fixed
+- **Babel Configuration**: Created babel.config.js with react-native-reanimated plugin for proper animation support
+
 ## [0.0.2] - 2026-04-14
 
 ### Fixed
