@@ -45,7 +45,7 @@ Root
 
 ### 4. Dice Roll (`/dice-roll`)
 - Select dice type: D3, D6, D10, D12, D20, D50
-- 5-second countdown before reveal
+- 3-second countdown before reveal
 - Random number displayed after countdown
 - Two options after result: "Finish Game" (select loser) or "Another Round" (roll again)
 
@@ -83,6 +83,7 @@ Unified history table with columns:
 - **Game** - which minigame
 - **Time** - timestamp
 - **Payout** - numeric value (e.g., 17.50)
+- **Delete** - tap ✕ to remove individual record
 
 ## UI Style
 - Playful and colorful
@@ -106,12 +107,13 @@ Unified history table with columns:
 2. User taps "History" in navigation
 3. Screen displays unified list of all payers with columns: Character, Game, Time, Payout
 4. User can filter the list by character
+5. User can tap ✕ on any record to delete it
 
 ### 3. Play Coin Flip
 1. User opens the app → Game Selection
 2. User taps "Coin Flip"
 3. User selects 2 characters (one for Heads, one for Tails)
-4. App displays 5-second countdown
+4. App displays countdown
 5. Coin result is revealed (Heads or Tails)
 6. **Scenario A - Confirm Game:**
    - User taps "Confirm Game"
@@ -126,7 +128,7 @@ Unified history table with columns:
 1. User opens the app → Game Selection
 2. User taps "Dice Roll"
 3. User selects dice type: D3, D6, D10, D12, D20, or D50
-4. App displays 5-second countdown
+4. App displays 3-second countdown
 5. Random number is revealed
 6. **Scenario A - Finish Game:**
    - User taps "Finish Game"
@@ -135,7 +137,7 @@ Unified history table with columns:
    - Entry is saved to history
 7. **Scenario B - Another Round:**
    - User taps "Another Round"
-   - New countdown begins (5 seconds)
+   - New countdown begins (3 seconds)
    - New random number revealed
    - Return to step 6
 8. **Scenario C - Exit:**

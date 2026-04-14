@@ -3,6 +3,7 @@ import { Character, HistoryEntry } from '../types';
 
 const CHARACTERS_KEY = 'characters';
 const HISTORY_KEY = 'history';
+const MUTE_KEY = 'mute_state';
 
 const DEFAULT_CHARACTERS: Character[] = [
   { id: '1', name: 'hardi', isGuest: false, isActive: true },
@@ -45,6 +46,21 @@ export const addHistoryEntry = async (entry: HistoryEntry): Promise<void> => {
   await saveHistory(history);
 };
 
+export const deleteHistoryEntry = async (id: string): Promise<void> => {
+  const history = await getHistory();
+  const filtered = history.filter((entry) => entry.id !== id);
+  await saveHistory(filtered);
+};
+
 export const generateId = (): string => {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
+};
+
+export const getMuteState = async (): Promise<boolean> => {
+  const stored = await AsyncStorage.getItem(MUTE_KEY);
+  return stored ? JSON.parse(stored) : false;
+};
+
+export const saveMuteState = async (isMuted: boolean): Promise<void> => {
+  await AsyncStorage.setItem(MUTE_KEY, JSON.stringify(isMuted));
 };

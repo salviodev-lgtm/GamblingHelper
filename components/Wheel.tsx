@@ -45,7 +45,7 @@ export default function Wheel({ items, isSpinning, onSpinEnd, size = 300 }: Whee
       Animated.timing(spinValue, {
         toValue: totalRotation,
         duration: 4000,
-        easing: Easing.bezier(0.2, 0.8, 0.3, 1),
+        easing: Easing.out(Easing.cubic),
         useNativeDriver: true,
       }).start(() => {
         if (!hasEndedRef.current && items.length > 0) {

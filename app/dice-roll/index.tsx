@@ -11,7 +11,7 @@ const DICE_TYPES = [3, 6, 10, 12, 20, 50];
 
 export default function DiceRollScreen() {
   const [selectedDice, setSelectedDice] = useState<number | null>(null);
-  const [countdown, setCountdown] = useState<number>(5);
+  const [countdown, setCountdown] = useState<number>(3);
   const [result, setResult] = useState<number | null>(null);
   const [isCounting, setIsCounting] = useState(false);
   const [showPayout, setShowPayout] = useState(false);
@@ -31,7 +31,7 @@ export default function DiceRollScreen() {
   const startRoll = () => {
     if (!selectedDice) return;
     setIsCounting(true);
-    setCountdown(5);
+    setCountdown(3);
     setResult(null);
     setShowPayout(false);
     setSelectedLoser(null);

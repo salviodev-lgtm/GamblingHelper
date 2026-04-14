@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, ScrollView } from 'react-native';
-import { getHistory, getCharacters } from '../hooks/storage';
+import { View, StyleSheet, FlatList, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { getHistory, getCharacters, deleteHistoryEntry } from '../hooks/storage';
 import { HistoryEntry, Character } from '../types';
 import MinecraftBackground from '../components/MinecraftBackground';
 import MinecraftButton from '../components/MinecraftButton';
@@ -32,6 +32,11 @@ export default function HistoryScreen() {
     setCharacters(c);
   };
 
+  const handleDelete = async (id: string) => {
+    await deleteHistoryEntry(id);
+    loadData();
+  };
+
   const filteredHistory = filterCharacter
     ? history.filter((e) => e.characterId === filterCharacter)
     : history;
@@ -49,6 +54,9 @@ export default function HistoryScreen() {
       </PixelText>
       <PixelText size="small" color="#888" style={styles.time}>{formatDate(item.timestamp)}</PixelText>
       <PixelText size="medium" color="#FFD700" style={styles.payout}>{item.payout.toFixed(2)}€</PixelText>
+      <TouchableOpacity onPress={() => handleDelete(item.id)} style={styles.deleteBtn}>
+        <Text style={styles.deleteText}>✕</Text>
+      </TouchableOpacity>
     </View>
   );
 
@@ -145,6 +153,14 @@ const styles = StyleSheet.create({
   payout: {
     flex: 0.8,
     textAlign: 'center',
+  },
+  deleteBtn: {
+    padding: 5,
+  },
+  deleteText: {
+    color: '#E74C3C',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   empty: {
     textAlign: 'center',

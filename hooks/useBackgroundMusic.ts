@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Audio } from 'expo-av';
 
-export function useBackgroundMusic() {
+export function useBackgroundMusic(isMuted: boolean) {
   const soundRef = useRef<Audio.Sound | null>(null);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export function useBackgroundMusic() {
 
       const { sound } = await Audio.Sound.createAsync(
         require('../assets/OST.mp3'),
-        { isLooping: true, volume: 0.3 }
+        { isLooping: true, volume: isMuted ? 0 : 0.3 }
       );
       soundRef.current = sound;
       await sound.playAsync();
@@ -28,4 +28,10 @@ export function useBackgroundMusic() {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (soundRef.current) {
+      soundRef.current.setVolumeAsync(isMuted ? 0 : 0.3);
+    }
+  }, [isMuted]);
 }
